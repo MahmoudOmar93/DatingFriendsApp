@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -42,10 +43,11 @@ namespace DatingFriendsApp.API.Controllers {
 
         // api/auth/login
         [HttpPost ("login")]
-        public async Task<IActionResult> Login (UserToLoginDto userToLoginDto) {
+        public async Task<IActionResult> Login (UserToLoginDto userToLoginDto) 
+        {
             var userFromRepo = await _repo.Login (userToLoginDto.Username.ToLower(), userToLoginDto.Password);
 
-            if (userToLoginDto == null)
+            if (userFromRepo == null)
                 return Unauthorized ();
 
             var claims = new [] {
